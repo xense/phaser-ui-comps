@@ -1,0 +1,47 @@
+{
+  "name": "phaser-ui-comps",
+  "version": "0.1.0",
+  "description": "Phaser 3 UI Components Framework and JSFL builder for Adobe Animate",
+  "main": "src/phasercomps.js",
+  "scripts": {
+    "build": "webpack && webpack --config webpack-with-underscore.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xense/phaser-ui-comps.git"
+  },
+  "keywords": [
+    "phaser",
+    "phaser3",
+    "ui",
+    "user interface",
+    "jsfl",
+    "animate",
+    "components",
+    "fla",
+    "xfl"
+  ],
+  "author": "Anton 'Xense' Bystrov <anton.bystrov@gmail.com>",
+  "license": "MIT",
+  "licenseUrl": "http://www.opensource.org/licenses/mit-license.php",
+  "bugs": {
+    "url": "https://github.com/xense/phaser-ui-comps/issues"
+  },
+  "homepage": "https://xense.github.io/phaser-ui-comps-docs/",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "uglifyjs-webpack-plugin": "^2.1.2",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.2.1"
+  },
+  "dependencies": {
+    "phaser": "^3.16.2",
+    "underscore": "^1.9.1"
+  },
+  "deprecated": false
+}
