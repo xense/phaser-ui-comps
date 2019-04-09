@@ -22,10 +22,14 @@ const PROGRESS_STATE_REGEX = /progress_(\d+)$/;
  * and all differences between them will be interpolated to the current progress value.
  * Also you can create intermediate states, if you want to control intermediate interpolation behaviour.
 
- * For example, if you want an indicator to rotate a full circle, you need to create intermediate states
- * `progress_30` and `progress_70`, to be sure, that indicator will rotate in the needed direction.
+ * For example, if you want an indicator to rotate a full circle, you need to create additional
+ * intermediate states `progress_30` and `progress_70` with 30% and 70$ of rotation,
+ * to be sure, that indicator will rotate in the needed direction.
  *
  * Also you can use intermediate states to make interpolation not linear for all progress range.
+ *
+ * Available properties for interpolating are
+ * `x`, `y`, `scaleX`, `scaleY`, `angle`, `alpha`
  *
  * @property {Number} value current progress value, between 0 and 1
  *
