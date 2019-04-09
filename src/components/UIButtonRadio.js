@@ -45,8 +45,9 @@ export default class UIButtonRadio extends UIButtonSelect {
 		super(parent, key, labelText);
 		this._sibling = this;
 		this._value = value;
-		if (typeof appendTo !== "undefined")
+		if (typeof appendTo !== "undefined") {
 			this.appendToRadio(appendTo);
+		}
 	}
 
 	/**

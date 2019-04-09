@@ -61,6 +61,14 @@ const TYPE_ZONE = "zone";
  * Component clip is a group of Phaser GameObjects and child ComponentClips.
  * Builds itself with provided jsfl-generated config object.
  *
+ * The root clip, built with provided config, keeps array of built components, images and other stuff inside.
+ * In some cases it behaves like a group, but it's not really.
+ * All child ComponentClips, created inside, are settled in Phaser Containers, but the root is not.
+ * That was done firstly for the masks to work property. So if you need some masks in your component,
+ * they should be only in the root, because containers don't support masking inside.
+ * But the root mask can mask any child containers. Currently only shape masks are supported,
+ * see docs for more info.
+ *
  * Clip supports state switching. Best if controlled by
  * [UIComponentPrototype]{@link PhaserComps.UIComponents.UIComponentPrototype} instance
  *
@@ -328,16 +336,52 @@ export default class ComponentClip {
 
 	/**
 	 * @public
+	 * @method PhaserComps.ComponentClip#getStateConfig
+	 * @description
+	 * Get raw state config object by state id, if exists
+	 * @param {String} stateId state id
+	 */
+	getStateConfig(stateId) {
+		return this._stateManager.getStateConfigById(stateId);
+	}
+
+	/**
+	 * @public
+	 * @method PhaserComps.ComponentClip#getStateIds
+	 * @description
+	 * Component state ids list.
+	 * @returns {Array<String>}
+	 */
+	getStateIds() {
+		return this._stateManager.stateIds;
+	}
+	/**
+	 * @public
 	 * @method PhaserComps.ComponentClip#setState
 	 * @description
 	 * Switch component view to specified stateId, if such stateId exists.
-	 * Do not use it manually, if you are using ComponentPrototype to control the view
+	 * Do not use it manually, if you are using UIComponentPrototype to control the view
 	 *
 	 * @param {String} stateId state id to switch to
 	 * @param {Boolean} [force=false] if true, state will be setup again even if stateId was not changed
 	 */
 	setState(stateId, force) {
 		this._stateManager.setState(stateId, force);
+	}
+
+	/**
+	 * @public
+	 * @method PhaserComps.ComponentClip#applyChildParamsapplyChildParams
+	 * @description
+	 * Apply child params
+	 * @param {String} childId
+	 * @param {StateConfig} params
+	 */
+	applyChildParams(childId, params) {
+		if (!this._childrenById.hasOwnProperty(childId)) {
+			return;
+		}
+		ComponentClip._setupCommonParams(this._childrenById[childId], params, this._groupConfig);
 	}
 
 	/**
@@ -652,6 +696,12 @@ class StateManager {
 		this._states = {};
 
 		/**
+		 * State ids array
+		 * @type {Array<String>}
+		 */
+		this.stateIds = [];
+
+		/**
 		 *
 		 * @type {Object}
 		 * @private
@@ -682,11 +732,26 @@ class StateManager {
 		this._residentComponentsByKey = {};
 		let idsArrays = [];
 		for (let stateId in config.states) {
+			this.stateIds.push(stateId);
 			let state = new State(config.states[stateId]);
 			this._states[stateId] = state;
 			idsArrays.push(state.componentIds);
 		}
 		this._dynamicChildrenIds = _.uniq(_.flatten(idsArrays));
+	}
+
+	/**
+	 * @public
+	 * @method PhaserComps.ComponentClip.StateManager#getStateConfigById
+	 * @description
+	 * Get raw state config object by state id
+	 * @param {String} stateId state id
+	 */
+	getStateConfigById(stateId) {
+		if (!this._states.hasOwnProperty(stateId)) {
+			return null;
+		}
+		return this._states[stateId].config;
 	}
 
 	/**

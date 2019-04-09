@@ -12,7 +12,7 @@ const _EVENT_STATE = "event_state";
  * Child clips will be appended automatically on every state change, their clips will be found by keys.
  * On state change notifies all child components to update their states.
  *
- * *One of the main ideas of this framework is if there is no clip for ComponentPrototype
+ * *One of the main ideas of this framework is if there is no clip for UIComponentPrototype
  * at current state or at all, nothing bad happens.*
  * @inheritDoc
  * @extends Phaser.Events.EventEmitter
