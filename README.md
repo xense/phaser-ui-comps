@@ -10,10 +10,10 @@ export to JSON and bitmaps with provided
 and `UIComponentPrototype` Will help to control them, switch states, 
 listen to click, drag and other events.
 
-In addition, `UIComponentPrototype` and it"s children classes don"t mind, 
+In addition, `UIComponentPrototype` and it's children classes don't mind, 
 if they have a real clip instance in current state or at all,
 so nothing bad happens, for example, if you remove some button instance in your window in 
-Animate document and keep it"s `UIComponentPrototype` instance.
+Animate document and keep it's `UIComponentPrototype` instance.
 
 All bitmaps are exported to png files with the same folder structure 
 as in the Animate document library. Pack them to atlases using
@@ -29,7 +29,7 @@ as in the Animate document library. Pack them to atlases using
 
 [Issues, bugs, new components ideas](https://github.com/xense/phaser-ui-comps/issues)
 
-[Animate document example](https://github.com/xense/phaser-ui-comps-docs/tree/master/examples/xfl/)
+[Animate document example](https://github.com/xense/phaser-ui-comps-docs/raw/master/examples/xfl/UI.fla)
 
 <h4>Export Animate document</h4>
 To run JSFL script in Animate select `Commands > Run Command`, 
@@ -46,6 +46,11 @@ npm install --save phaser-ui-comps
 
 Or you can download minified version from 
 [https://github.com/xense/phaser-ui-comps/tree/master/dist](https://github.com/xense/phaser-ui-comps/tree/master/dist)
+
+Or use [jsdelivr cdn](https://www.jsdelivr.com/) version
+```html
+<script src="https://cdn.jsdelivr.net/npm/phaser-ui-comps@0.1.1/dist/phaser-ui-comps-with-underscore.min.js"></script>
+``` 
 
 *Note!*
 *PhaserComps uses [underscore.js](https://underscorejs.org/)

@@ -1,6 +1,6 @@
 {
   "name": "phaser-ui-comps",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Phaser 3 UI Components Framework and JSFL builder for Adobe Animate",
   "main": "src/phasercomps.js",
   "scripts": {
@@ -19,7 +19,10 @@
     "animate",
     "components",
     "fla",
-    "xfl"
+    "xfl",
+    "buttons",
+    "progress bar",
+    "scroll bar"
   ],
   "author": "Anton 'Xense' Bystrov <anton.bystrov@gmail.com>",
   "license": "MIT",
