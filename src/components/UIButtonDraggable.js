@@ -103,8 +103,8 @@ export default class UIButtonDraggable extends UIButton {
 		if (!this._clip) {
 			return;
 		}
-		this._startDragX = this._clip.x;
-		this._startDragY = this._clip.y;
+		this._startDragX = this._clip.x - gameObject.input.dragStartX;
+		this._startDragY = this._clip.y - gameObject.input.dragStartY;
 	}
 
 	/**
@@ -139,7 +139,7 @@ export default class UIButtonDraggable extends UIButton {
 	_setupInteractive(zone) {
 		super._setupInteractive(zone);
 		this._dragZone = zone;
-		zone.scene.input.dragDistanceThreshold = 3;
+		//zone.scene.input.dragDistanceThreshold = 3;
 		zone.scene.input.setDraggable(zone, true);
 		zone.scene.input.on("dragstart", this._onDragStart, this);
 		zone.scene.input.on("drag", this._onDrag, this);
