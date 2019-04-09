@@ -275,6 +275,7 @@ PhaserExporter.prototype.collectHitZoneParams = function(element, target, forSta
  */
 PhaserExporter.prototype.collectShapeParams = function(element, target, forState) {
 	var color;
+	var isSolid = false;
 	var alpha = 1;
 	for (var contourIndex in element.contours) {
 		var contour = element.contours[contourIndex];
@@ -291,13 +292,13 @@ PhaserExporter.prototype.collectShapeParams = function(element, target, forState
 			return;
 		} else if (contour.fill.style === 'solid') {
 			color = parseInt(contour.fill.color.substr(1, 6), 16);
+			isSolid = true;
 			if (contour.fill.color.length > 7) {
 				alpha = parseInt(contour.fill.color.substr(7, 2), 16);
 			}
 		}
 	}
-	if (!color) {
-		//extractObject(element);
+	if (!isSolid) {
 		return;
 	}
 	if (alpha !== 1) {
@@ -393,7 +394,7 @@ PhaserExporter.prototype.collectCommonElementParams = function(element, target) 
 		target.scaleX *= -1;
 	}
 
-	if (element.colorAlphaPercent && element.colorAlphaPercent !== 100)
+	if (element.colorAlphaPercent !== undefined && element.colorAlphaPercent !== 100)
 		target.alpha = element.colorAlphaPercent / 100;
 	if (element.rotation) target.angle = element.rotation;
 };
