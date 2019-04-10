@@ -175,7 +175,6 @@ export default class ComponentClip {
 	}
 
 	set groupX(val) {
-		//debugger;
 		if (this._groupConfig.x === val) {
 			return;
 		}
@@ -245,7 +244,7 @@ export default class ComponentClip {
 			return;
 		}
 		this._groupConfig.visible = val;
-		this.visible &= val;
+		this._stateManager.setupState();
 	}
 
 
@@ -405,6 +404,17 @@ export default class ComponentClip {
 	getChildText(key) {
 		// TODO separate getter
 		return this._stateManager.getActiveComponentByKey(key);
+	}
+
+	/**
+	 * @public
+	 * @method PhaserComps.ComponentClip#destroy
+	 * @description destroy all child GameObjects and child clips recursively
+	 */
+	destroy() {
+		_.each(this.childrenList, child => {
+			child.destroy();
+		}, this);
 	}
 
 	/**
@@ -789,7 +799,7 @@ class StateManager {
 		}
 		this._currentStateId = stateId;
 		this._currentState = this._states[stateId];
-		this._setupState();
+		this.setupState();
 	}
 
 	/**
@@ -816,10 +826,10 @@ class StateManager {
 
 	/**
 	 * Show state components, apply its' state positions, and hide non-state components
-	 * @method PhaserComps.ComponentClip.tateManager#_setupState
-	 * @private
+	 * @method PhaserComps.ComponentClip.tateManager#setupState
+	 * @protected
 	 */
-	_setupState() {
+	setupState() {
 		let idsToShow = this._currentState.componentIds;
 		let idsToHide = _.difference(this._dynamicChildrenIds, idsToShow);
 
