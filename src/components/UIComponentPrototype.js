@@ -167,12 +167,16 @@ export default class UIComponentPrototype extends Phaser.Events.EventEmitter {
 	}
 
 	/**
+	 * Destroy ComponentPrototype and clip, if exists
 	 * @method PhaserComps.UIComponents.UIComponentPrototype#destroy
 	 * @protected
 	 */
 	destroy() {
 		if (this._parent){
 			this._parent.removeListener(_EVENT_STATE, this._onEventState);
+		}
+		if (this._clip) {
+			this._clip.destroy();
 		}
 	}
 

@@ -6,6 +6,7 @@ import UIButtonDraggable from "./UIButtonDraggable";
 import UIScrollBar from "./UIScrollBar";
 import UIScrollPanel from "./UIScrollPanel";
 import UIProgressBar from "./UIProgressBar";
+import UIContainer from "./UIContainer";
 
 /**
  * @namespace PhaserComps.UIComponents
@@ -19,7 +20,8 @@ const UIComponents = {
 	UIButtonDraggable: UIButtonDraggable,
 	UIScrollBar: UIScrollBar,
 	UIScrollPanel: UIScrollPanel,
-	UIProgressBar: UIProgressBar
+	UIProgressBar: UIProgressBar,
+	UIContainer: UIContainer
 };
 
 export default UIComponents;
