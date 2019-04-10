@@ -283,6 +283,9 @@ PhaserExporter.prototype.collectShapeParams = function(element, target, forState
 			continue;
 		}
 		if (contour.fill.style === 'bitmap') {
+			if (forState) {
+				return; // TODO update tileSprite scale?
+			}
 			target.type = 'tileSprite';
 			target.width = element.width;
 			target.height = element.height;
@@ -294,7 +297,7 @@ PhaserExporter.prototype.collectShapeParams = function(element, target, forState
 			color = parseInt(contour.fill.color.substr(1, 6), 16);
 			isSolid = true;
 			if (contour.fill.color.length > 7) {
-				alpha = parseInt(contour.fill.color.substr(7, 2), 16);
+				alpha = roundToFract2(parseInt(contour.fill.color.substr(7, 2), 16) / 256);
 			}
 		}
 	}
@@ -303,6 +306,9 @@ PhaserExporter.prototype.collectShapeParams = function(element, target, forState
 	}
 	if (alpha !== 1) {
 		target.alpha = alpha;
+	}
+	if (forState) {
+		return;
 	}
 	target.color = color;
 	target.type = 'polygon';
