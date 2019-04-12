@@ -98,6 +98,7 @@ var ZONE_ELEMENT_NAMES = [
 	'HIT_ZONE',
 	'DIMENSIONS'
 ];
+var ZONE_ELEMENT_PREFIX = 'DIMENSIONS_';
 var STATE_IDS_LAYER_NAME = 'STATE_IDS';
 
 
@@ -249,7 +250,7 @@ PhaserExporter.prototype.collectExtendedElementParams = function(element, target
 				if (element.name) {
 					target.key = element.name;
 				}
-				if (ZONE_ELEMENT_NAMES.indexOf(element.name) !== -1) {
+				if (ZONE_ELEMENT_NAMES.indexOf(element.name) !== -1 || element.name.indexOf(ZONE_ELEMENT_PREFIX) === 0) {
 					this.collectHitZoneParams(element, target, forState);
 				} else {
 					var childExporter = new PhaserExporter(libItem, target);
