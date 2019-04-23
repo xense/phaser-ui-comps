@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import UIManager from "../manager/UIManager";
 
 const _EVENT_STATE = "event_state";
 
@@ -16,6 +17,7 @@ const _EVENT_STATE = "event_state";
  * at current state or at all, nothing bad happens.*
  * @inheritDoc
  * @extends Phaser.Events.EventEmitter
+ * @property {String} lockId Used by UIManager, see {@link PhaserComps.UIManager}
  * @param {PhaserComps.UIComponents.UIComponentPrototype} [parent] UIComponentPrototype instance to find clip inside
  * @param {String} [key] key to find clip inside parent
  */
@@ -25,6 +27,11 @@ export default class UIComponentPrototype extends Phaser.Events.EventEmitter {
 
 	constructor(parent, key) {
 		super();
+
+		/**
+		 * @type {String}
+		 */
+		this.lockId = null;
 
 		/**
 		 *

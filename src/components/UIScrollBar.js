@@ -1,6 +1,7 @@
 import UIComponentPrototype from "./UIComponentPrototype";
 import UIButton from "./UIButton";
 import UIButtonDraggable from "./UIButtonDraggable";
+import UIManager from "../manager/UIManager";
 
 const _EVENT_CHANGE = "event_change";
 
@@ -198,6 +199,9 @@ export default class UIScrollBar extends UIComponentPrototype {
 	 * @protected
 	 */
 	onPrevClick() {
+		if (!UIManager.check(this.lockId)) {
+			return;
+		}
 		this.value -= this._buttonStep;
 	}
 
@@ -206,6 +210,9 @@ export default class UIScrollBar extends UIComponentPrototype {
 	 * @protected
 	 */
 	onNextClick() {
+		if (!UIManager.check(this.lockId)) {
+			return;
+		}
 		this.value += this._buttonStep;
 	}
 
@@ -254,6 +261,9 @@ export default class UIScrollBar extends UIComponentPrototype {
 	 */
 	_onThumbDrag(positionX, positionY) {
 		if (this._trackLength === 0) {
+			return;
+		}
+		if (!UIManager.check(this.lockId)) {
 			return;
 		}
 		let barPosition = this._vertical ? positionY : positionX;

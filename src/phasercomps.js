@@ -5,11 +5,13 @@
 import ComponentClip from "./clip/ComponentClip";
 import UIComponents from "./components/UIComponents";
 import Plugin from "./plugin/Plugin";
+import UIManager from "./manager/UIManager";
 
 var PhaserComps = {
 	ComponentClip: ComponentClip,
 	UIComponents: UIComponents,
-	Plugin: Plugin
+	Plugin: Plugin,
+	UIManager: UIManager
 };
 
 module.exports = PhaserComps;

@@ -1,4 +1,5 @@
 import UIButton from "./UIButton";
+import UIManager from "../manager/UIManager";
 
 const _EVENT_DRAG = "event_drag";
 
@@ -117,6 +118,9 @@ export default class UIButtonDraggable extends UIButton {
 	 * @protected
 	 */
 	_onDrag(pointer, gameObject, dragX, dragY) {
+		if (!UIManager.check(this.lockId)){
+			return;
+		}
 		if (!this._dragZone	|| this._dragZone !== gameObject || this.clip) {
 			return;
 		}

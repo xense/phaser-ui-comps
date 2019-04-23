@@ -1,4 +1,5 @@
 import UIComponentPrototype from "./UIComponentPrototype";
+import UIManager from "../manager/UIManager";
 
 const HIT_ZONE = "HIT_ZONE";
 
@@ -200,7 +201,9 @@ export default class UIButton extends UIComponentPrototype {
 		this._isPressed = false;
 		this.doState();
 		if (isClicked) {
-			this._onClick();
+			if (UIManager.check(this.lockId)) {
+				this._onClick();
+			}
 		}
 	}
 
