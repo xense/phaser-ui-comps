@@ -1,5 +1,5 @@
 import UIComponentPrototype from "./UIComponentPrototype";
-import Phaser from 'phaser';
+import 'phaser';
 import _ from 'underscore';
 
 /**
@@ -28,13 +28,6 @@ export default class UIContainer extends UIComponentPrototype {
 		 * @private
 		 */
 		this._children = [];
-
-		/**
-		 * Current active Phaser container instance
-		 * @type {Phaser.GameObjects.Container}
-		 * @private
-		 */
-		this._containerClip = null;
 	}
 
 	/**
@@ -52,10 +45,11 @@ export default class UIContainer extends UIComponentPrototype {
 		this._children.push(child);
 
 		// add to container instance, or hide
-		if (this._containerClip) {
+		if (this._clip) {
+			child._clip.visible = true;
 			this._addUIComponentToContainerClip(child);
 		} else {
-			child._clip.groupVisible = false;
+			child._clip.visible = false;
 		}
 		return child;
 	}
@@ -75,7 +69,7 @@ export default class UIContainer extends UIComponentPrototype {
 		}
 		this._children.splice(index, 1);
 
-		if (this._containerClip) {
+		if (this._clip) {
 			this._removeUIComponentFromContainerClip(child);
 		}
 		return child;
@@ -87,10 +81,8 @@ export default class UIContainer extends UIComponentPrototype {
 	 * @private
 	 */
 	_addUIComponentToContainerClip(child) {
-		_.each(child._clip.childrenList, clipChild => {
-			this._containerClip.add(clipChild);
-		}, this);
-		child._clip.groupVisible = true;
+		this._clip.add(child._clip);
+		child._clip.visible = true;
 	}
 
 	/**
@@ -100,16 +92,13 @@ export default class UIContainer extends UIComponentPrototype {
 	 * @private
 	 */
 	_removeUIComponentFromContainerClip(child, destroyChild) {
-		_.each(child._clip.childrenList, clipChild => {
-			this._containerClip.remove(clipChild, destroyChild);
-		}, this);
-		child._clip.groupVisible = false;
+		this._clip.remove(child._clip, destroyChild);
+		child._clip.visible = false;
 	}
 
 	onClipAppend(clip) {
 		super.onClipAppend(clip);
-		this._containerClip = clip._container;
-		if (this._containerClip) {
+		if (clip) {
 			_.each(this._children, child => {
 				this._addUIComponentToContainerClip(child);
 			}, this);
@@ -119,7 +108,7 @@ export default class UIContainer extends UIComponentPrototype {
 	onClipRemove(clip) {
 		super.onClipRemove(clip);
 		// hide and remove children from current container
-		if (this._containerClip) {
+		if (clip) {
 			_.each(this._children, child => {
 				this._removeUIComponentFromContainerClip(child);
 			}, this);
@@ -129,7 +118,7 @@ export default class UIContainer extends UIComponentPrototype {
 	destroy() {
 		// remove and destroy children
 		_.each(this._children, child => {
-			if (this._containerClip) { // TODO check if needed
+			if (this._clip) { // TODO check if needed
 				this._removeUIComponentFromContainerClip(child);
 			}
 			child.destroy();

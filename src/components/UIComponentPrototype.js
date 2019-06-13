@@ -1,4 +1,4 @@
-import Phaser from "phaser";
+import "phaser";
 import UIManager from "../manager/UIManager";
 
 const _EVENT_STATE = "event_state";

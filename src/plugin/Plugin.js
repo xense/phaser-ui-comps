@@ -1,4 +1,4 @@
-import Phaser from "phaser";
+import "phaser";
 import ComponentClip from "../clip/ComponentClip";
 
 /**
@@ -41,10 +41,16 @@ import ComponentClip from "../clip/ComponentClip";
 export default class Plugin extends Phaser.Plugins.BasePlugin {
     constructor(mgr) {
         super(mgr);
-        mgr.registerGameObject("ui_component", this.addComponent, this.addComponent);
+        mgr.registerGameObject("ui_component", this.addComponent, this.makeComponent);
     }
 
     addComponent(config, textures) {
+        let clip = new ComponentClip(this.scene, config, textures);
+        this.scene.add.existing(clip);
+        return clip;
+    }
+
+    makeComponent(config, textures) {
         return new ComponentClip(this.scene, config, textures);
     }
 }

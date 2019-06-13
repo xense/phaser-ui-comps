@@ -58,82 +58,24 @@ const TYPE_ZONE = "zone";
  * @class ComponentClip
  * @memberOf PhaserComps
  * @classdesc
- * Component clip is a group of Phaser GameObjects and child ComponentClips.
+ * @extends Phaser.GameObjects.Container
+ * Component clip is Phaser Container instance.
  * Builds itself with provided jsfl-generated config object.
- *
- * The root clip, built with provided config, keeps array of built components, images and other stuff inside.
- * In some cases it behaves like a group, but it's not really.
- * All child ComponentClips, created inside, are settled in Phaser Containers, but the root is not.
- * That was done firstly for the masks to work property. So if you need some masks in your component,
- * they should be only in the root, because containers don't support masking inside.
- * But the root mask can mask any child containers. Currently only shape masks are supported,
- * see docs for more info.
  *
  * Clip supports state switching. Best if controlled by
  * [UIComponentPrototype]{@link PhaserComps.UIComponents.UIComponentPrototype} instance
  *
- * *Note! do not change `x`, `y`, `scaleX`, `scaleY`, `angle`, `alpha`, `visible` properties of clip instance.*
- *
- * *If you need to move, scale, rotate, change alpha and visibility of the clip group, use*
- * *`groupX`, `groupY`, `groupScaleX`, `groupScaleY`, `groupAngle`, `groupAlpha`, `groupVisible` properties*
- *
- * @property {Number} [groupX=0] clip group position x
- * @property {Number} [groupY=0] clip group position x
- * @property {Number} [groupAlpha=1] clip group alpha
- * @property {Number} [groupScaleX=1] clip group scaleX
- * @property {Number} [groupScaleY=1] clip group scaleY
- * @property {Number} [groupAngle=0] clip group angle in degrees.
- * Note, that every group child will be rotated around its own origin
- * @property {Boolean} [groupVisible=true] clip group visibility flag
- *
- *
- * @property {Number} x **only for private usage**, if you want to move clip manually, use `groupX`
- * @property {Number} y **only for private usage**, if you want to move clip manually, use `groupY`
- * @property {Number} scaleX **only for private usage**, if you want to scale clip manually, use `groupScaleX`
- * @property {Number} scaleY **only for private usage**, if you want to scale clip manually, use `groupScaleY`
- * @property {Number} alpha **only for private usage**, if you want to change clip alpha manually, use `groupAlpha`.
- * @property {Number} angle **only for private usage**, if you want to rotate clip manually, use `groupAngle`.
- * @property {Boolean} visible **only for private usage**, if you want to switch clip visibility manually,
- * use `groupVisible`
-
  * @see PhaserComps.UIComponents.UIComponentPrototype
  *
  * @param {Phaser.Scene} scene Phaser scene to create component at
  * @param {ComponentConfig} config jsfl-generated config object
  * @param {Array<String>} textures Array of texture names, where component should find its texture frames
- * @param {Boolean} [isChildComponent = false] used internally to build child component clips recursively
  */
-export default class ComponentClip {
-	constructor(scene, config, textures, isChildComponent) {
-		this.scene = scene;
+export default class ComponentClip extends Phaser.GameObjects.Container {
+	constructor(scene, config, textures) {
+		super(scene, 0, 0);
+		this.childComponentClips = [];
 
-		this.childrenList = [];
-
-		this._groupConfig = {
-			x: 0,
-			y: 0,
-			scaleX: 1,
-			scaleY: 1,
-			angle: 0,
-			alpha: 1,
-			visible: true
-		};
-
-		this._x = 0;
-		this._y = 0;
-		this._scaleX = 1;
-		this._scaleY = 1;
-		this._angle = 0;
-		this._angle = 0;
-		this._alpha = 1;
-		this._visible = true;
-
-
-		this._isChildComponent = isChildComponent || false;
-		if (this._isChildComponent) {
-			this._container = scene.add.container(0, 0);
-			this.childrenList.push(this._container);
-		}
 		/**
 		 * component config object
 		 * @type {Object}
@@ -168,169 +110,6 @@ export default class ComponentClip {
 
 		this._createImagesMap(textures);
 		this._parseConfig();
-	}
-
-	get groupX() {
-		return this._groupConfig.x;
-	}
-
-	set groupX(val) {
-		if (this._groupConfig.x === val) {
-			return;
-		}
-		let delta = val - this._groupConfig.x;
-		this._groupConfig.x = val;
-		this.x += delta;
-	}
-
-	get groupY() {
-		return this._groupConfig.y;
-	}
-
-	set groupY(val) {
-		if (this._groupConfig.y === val) {
-			return;
-		}
-		let delta = val - this._groupConfig.y;
-		this._groupConfig.y = val;
-		this.y += delta;
-	}
-
-	get groupScaleX() {
-		return this._groupConfig.scaleX;
-	}
-
-	set groupScaleX(val) {
-		if (this._groupConfig.scaleX === val) {
-			return;
-		}
-		let delta = val / this._groupConfig.scaleX;
-		this._groupConfig.scaleX = val;
-		this.scaleX *= delta;
-	}
-
-	get groupScaleY() {
-		return this._groupConfig.scaleY;
-	}
-
-	set groupScaleY(val) {
-		if (this._groupConfig.scaleY === val) {
-			return;
-		}
-		let delta = val / this._groupConfig.scaleY;
-		this._groupConfig.scaleY = val;
-		this.scaleY *= delta;
-	}
-
-	get groupAlpha() {
-		return this._groupConfig.alpha;
-	}
-
-	set groupAlpha(val) {
-		if (this._groupConfig.alpha === val) {
-			return;
-		}
-		let delta = val / this._groupConfig.alpha;
-		this._groupConfig.alpha = val;
-		this.alpha *= delta;
-	}
-
-	get groupVisible() {
-		return this._groupConfig.visible;
-	}
-
-	set groupVisible(val) {
-		if (this._groupConfig.visible === val) {
-			return;
-		}
-		this._groupConfig.visible = val;
-		this._stateManager.setupState();
-	}
-
-
-	get x() {
-		return this._x;
-	}
-
-	set x(val) {
-		let delta = val - this.x;
-		Phaser.Actions.IncX(this.childrenList, delta);
-		this._x = val;
-	}
-
-	get y() {
-		return this._y;
-	}
-
-	set y(val) {
-		let delta = val - this.y;
-		Phaser.Actions.IncY(this.childrenList, delta);
-		this._y = val;
-	}
-
-	get visible() {
-		return this._visible;
-	}
-
-	set visible(val) {
-		if (this._visible === val) {
-			return;
-		}
-		this._visible = val;
-		Phaser.Actions.SetVisible(this.childrenList, val);
-	}
-
-	get alpha() {
-		return this._alpha;
-	}
-
-	set alpha(val) {
-		if (this._alpha === val) {
-			return;
-		}
-		this._alpha = val;
-		Phaser.Actions.SetAlpha(this.childrenList, val);
-	}
-
-	get scaleX() {
-		return this._scaleX;
-	}
-
-	set scaleX(val) {
-		if (this._scaleX === val) {
-			return;
-		}
-		this._scaleX = val;
-		Phaser.Actions.SetScaleX(this.childrenList, val);
-	}
-
-	get scaleY() {
-		return this._scaleY;
-	}
-
-	set scaleY(val) {
-		if (this._scaleY === val) {
-			return;
-		}
-		this._scaleY = val;
-		Phaser.Actions.SetScaleY(this.childrenList, val);
-	}
-
-	get angle() {
-		return this._angle;
-	}
-
-	set angle(val) {
-		if (this._angle === val) {
-			return;
-		}
-		Phaser.Actions.PropertyValueSet(this.childrenList, "angle", val);
-	}
-
-	setMask(mask) {
-		_.each(this.childrenList, (child) => {
-			child.setMask(mask);
-		}, this);
 	}
 
 	/**
@@ -370,7 +149,7 @@ export default class ComponentClip {
 
 	/**
 	 * @public
-	 * @method PhaserComps.ComponentClip#applyChildParamsapplyChildParams
+	 * @method PhaserComps.ComponentClip#applyChildParams
 	 * @description
 	 * Apply child params
 	 * @param {String} childId
@@ -380,7 +159,7 @@ export default class ComponentClip {
 		if (!this._childrenById.hasOwnProperty(childId)) {
 			return;
 		}
-		ComponentClip._setupCommonParams(this._childrenById[childId], params, this._groupConfig);
+		ComponentClip._setupCommonParams(this._childrenById[childId], params);
 	}
 
 	/**
@@ -412,7 +191,7 @@ export default class ComponentClip {
 	 * @description destroy all child GameObjects and child clips recursively
 	 */
 	destroy() {
-		_.each(this.childrenList, child => {
+		_.each(this.childComponentClips, child => {
 			child.destroy();
 		}, this);
 	}
@@ -464,9 +243,9 @@ export default class ComponentClip {
 	 */
 	_createChildFromConfig(config) {
 		let child = null;
-		let childView = null;
 		let childId = config.childId;
 		let childKey = config.key;
+		let addAsChild = true;
 		if (config.type === TYPE_IMAGE) {
 			child = this._createImageFromConfig(config);
 		} else if (config.type === TYPE_TEXT) {
@@ -474,35 +253,30 @@ export default class ComponentClip {
 		} else if (config.type === TYPE_TILE_SPRITE) {
 			child = this._createTileSpriteFromConfig(config);
 		} else if (config.type === TYPE_COMPONENT) {
-			child = new ComponentClip(this.scene, config, this._textures, true);
+			child = new ComponentClip(this.scene, config, this._textures);
 			ComponentClip._setupCommonParams(child, config);
-			childView = child._container;
 		} else if (config.type === TYPE_ZONE) {
 			child = this._createHitZoneFromConfig(config);
 		} else if (config.type === TYPE_POLYGON) {
 			child = this._createPolygonFromConfig(config);
+			if (config.hasOwnProperty("masking")) {
+				let mask = child.createGeometryMask();
+				_.each(config.masking, (maskedChildId) => {
+					let maskedChild = this._childrenById[maskedChildId];
+					maskedChild.setMask(mask);
+				}, this);
+				addAsChild = false;
+			}
 		}
 		if (child === null) {
 			//console.warn("unknown component type", config.type, config);
 			return;
 		}
-		if (childView === null) {
-			childView = child;
-		}
 		//ComponentView._setupCommonParams(child, config);
 		this._childrenById[childId] = child;
-		if (config.hasOwnProperty("masking")) {
-			// TODO check if the shape
-			let mask = child.createGeometryMask();
-			_.each(config.masking, (maskedChildId) => {
-				let maskedChild = this._childrenById[maskedChildId];
-				maskedChild.setMask(mask);
-			}, this);
-		}
-		if (this._isChildComponent) {
-			this._container.add(childView);
-		} else {
-			this.childrenList.push(child);
+		this.childComponentClips.push(child);
+		if (addAsChild) {
+			this.add(child);
 		}
 		this._stateManager.addComponent(child, childId, childKey);
 	}
@@ -615,24 +389,15 @@ export default class ComponentClip {
 	 * @description setup common game object params from jsfl-generated config
 	 * @param {*} component
 	 * @param {Object} config
-	 * @param {Object} [groupConfig]
 	 * @ignore
 	 */
-	static _setupCommonParams(component, config, groupConfig) {
+	static _setupCommonParams(component, config) {
 		let x = config.x || 0;
 		let y = config.y || 0;
 		let scaleX = config.scaleX || 1;
 		let scaleY = config.scaleY || 1;
 		let angle = config.angle || 0;
 		let alpha = config.hasOwnProperty("alpha") ? config.alpha : 1;
-		if (groupConfig) {
-			x += groupConfig.x;
-			y += groupConfig.y;
-			scaleX *= groupConfig.scaleX;
-			scaleY *= groupConfig.scaleY;
-			angle += groupConfig.angle;
-			alpha *= groupConfig.alpha;
-		}
 		component.x = x;
 		component.y = y;
 		component.scaleX = scaleX;
@@ -839,8 +604,8 @@ class StateManager {
 
 		_.each(idsToShow, (id) => {
 			let component = this._components[id];
-			component.visible = this._clip._groupConfig.visible; // && true;
-			ComponentClip._setupCommonParams(component, this._currentState.config[id], this._clip._groupConfig);
+			component.visible = true;
+			ComponentClip._setupCommonParams(component, this._currentState.config[id]);
 		}, this);
 	}
 }
