@@ -7,6 +7,8 @@ import UIScrollBar from "./UIScrollBar";
 import UIScrollPanel from "./UIScrollPanel";
 import UIProgressBar from "./UIProgressBar";
 import UIContainer from "./UIContainer";
+import UIList from "./UIList";
+import UIListBaseItem from "./UIListBaseItem";
 
 /**
  * @namespace PhaserComps.UIComponents
@@ -21,7 +23,9 @@ const UIComponents = {
 	UIScrollBar: UIScrollBar,
 	UIScrollPanel: UIScrollPanel,
 	UIProgressBar: UIProgressBar,
-	UIContainer: UIContainer
+	UIContainer: UIContainer,
+	UIList: UIList,
+	UIListBaseItem: UIListBaseItem
 };
 
 export default UIComponents;
