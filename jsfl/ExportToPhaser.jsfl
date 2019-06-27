@@ -374,7 +374,7 @@ PhaserExporter.prototype.collectCommonElementParams = function(element, target) 
 	}
 	if (roundToFract4(element.y) !== 0) {
 		target.y = target.y || 0;
-		target.y = roundToFract4(element.y);
+		target.y += roundToFract4(element.y);
 	}
 	if (roundToFract4(element.scaleX) !== 1) target.scaleX = roundToFract4(element.scaleX);
 	if (roundToFract4(element.scaleY) !== 1) target.scaleY = roundToFract4(element.scaleY);
@@ -421,15 +421,24 @@ PhaserExporter.prototype.collectBitmapParams = function(element, target, forStat
 PhaserExporter.prototype.collectTextElementParams = function(element, target, forState) {
 	var attrs = element.textRuns[0].textAttrs;
 	var style = {};
+
+	target.y = target.y || 0;
+	// magical flash textfield offset
+	target.y += 2;
+
 	if (attrs.alignment === 'center') {
 		style.align = 'center';
 		target.x = target.x || 0;
 		target.x += element.width / 2;
 	} else if (attrs.alignment === 'right') {
 		style.align = 'right';
-		target.y = target.y || 0;
+		target.x = target.x || 0;
 		target.x += element.width;
-	} // TODO what about justify?
+	} else {
+		target.x = target.x || 0;
+		// magical flash textfield offset
+		target.x += 2;
+	}
 
 	if (forState)
 		return;
@@ -466,8 +475,12 @@ PhaserExporter.prototype.collectTextElementParams = function(element, target, fo
 	if (element.filters) {
 		for (var filterIndex in element.filters) {
 			var filter = element.filters[filterIndex];
-			if (filter.name === 'dropShadowFilter')
+			if (filter.name === 'dropShadowFilter') {
 				style.shadow = this.generateShadowObject(filter);
+			} else if (filter.name === 'glowFilter' && filter.enabled === true) {
+				style.stroke = filter.color;
+				style.strokeThickness = filter.blurX;
+			}
 		}
 	}
 };
