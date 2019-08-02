@@ -189,11 +189,13 @@ export default class ComponentClip extends Phaser.GameObjects.Container {
 	 * @public
 	 * @method PhaserComps.ComponentClip#destroy
 	 * @description destroy all child GameObjects and child clips recursively
+	 * @param {Boolean} [fromScene=false]
 	 */
-	destroy() {
+	destroy(fromScene) {
 		_.each(this.childComponentClips, child => {
-			child.destroy();
+			child.destroy(fromScene);
 		}, this);
+		super.destroy(fromScene)
 	}
 
 	/**
