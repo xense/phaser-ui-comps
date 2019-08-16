@@ -14,6 +14,6 @@ var PhaserComps = {
 	UIManager: UIManager
 };
 
-module.exports = PhaserComps;
+export default PhaserComps;
 
 global.PhaserComps = PhaserComps;
