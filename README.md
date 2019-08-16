@@ -41,7 +41,11 @@ To install the latest version from
 [npm](https://www.npmjs.com)
 locally and save it in your `package.json` file:
 ```bash
-npm install --save phaser-ui-comps 
+npm install --save phaser-ui-comps
+```
+or if you are using [yarn](https://yarnpkg.com)
+```bash
+yarn add phaser-ui-comps
 ```
 
 Or you can download minified version from 
@@ -49,7 +53,7 @@ Or you can download minified version from
 
 Or use [jsdelivr cdn](https://www.jsdelivr.com/) version
 ```html
-<script src="https://cdn.jsdelivr.net/npm/phaser-ui-comps@0.1.2/dist/phaser-ui-comps-with-underscore.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/phaser-ui-comps@1.0.3/dist/phaser-ui-comps-with-underscore.min.js"></script>
 ``` 
 
 *Note!*
