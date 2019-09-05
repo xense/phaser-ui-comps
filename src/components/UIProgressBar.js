@@ -1,5 +1,5 @@
 import UIComponentPrototype from "./UIComponentPrototype";
-import * as _ from "underscore";
+import _ from "underscore";
 
 const PROGRESS_STATE_REGEX = /progress_(\d+)$/;
 

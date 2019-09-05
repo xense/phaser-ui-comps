@@ -1,5 +1,5 @@
 import UIComponentPrototype from "./UIComponentPrototype";
-import "underscore";
+import _ from "underscore";
 
 const EVENT_ITEM_CHANGE = "event_change";
 
