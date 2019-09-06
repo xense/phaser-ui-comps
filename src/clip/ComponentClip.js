@@ -69,7 +69,7 @@ const TYPE_ZONE = "zone";
  *
  * @param {Phaser.Scene} scene Phaser scene to create component at
  * @param {ComponentConfig} config jsfl-generated config object
- * @param {Array<String>} textures Array of texture names, where component should find its texture frames
+ * @param {Array<String>|String} textures texure name or Array of texture names, where component should find its texture frames
  */
 export default class ComponentClip extends Phaser.GameObjects.Container {
 	constructor(scene, config, textures) {
@@ -92,7 +92,7 @@ export default class ComponentClip extends Phaser.GameObjects.Container {
 		 * list of texture names to use in this component
 		 * @type {Array<String>}
 		 * */
-		this._textures = textures;
+		this._textures = Array.isArray(textures) ? textures : [textures];
 
 		/**
 		 * Texture frames to texture names map
