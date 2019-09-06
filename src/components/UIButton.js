@@ -2,7 +2,6 @@ import UIComponentPrototype from "./UIComponentPrototype";
 import UIManager from "../manager/UIManager";
 
 const HIT_ZONE = "HIT_ZONE";
-
 const LABEL = "label";
 
 const _STATE_UP = "up";
@@ -105,10 +104,10 @@ export default class UIButton extends UIComponentPrototype {
 	 */
 	_removeInteractive(zone) {
 		zone.disableInteractive();
-		zone.removeListener("pointerdown", this._onPointerDown, this);
-		zone.removeListener("pointerup", this._onPointerUp, this);
-		zone.removeListener("pointerover", this._onPointerOver, this);
-		zone.removeListener("pointerout", this._onPointerOut, this);
+		zone.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_DOWN, this._onPointerDown, this);
+		zone.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this._onPointerUp, this);
+		zone.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, this._onPointerOver, this);
+		zone.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, this._onPointerOut, this);
 	}
 
 	/**
@@ -187,20 +186,22 @@ export default class UIButton extends UIComponentPrototype {
 	 * @method UIButton#_onPointerDown
 	 * @protected
 	 */
-	_onPointerDown() {
+	_onPointerDown(pointer, localX, localY, event) {
 		this._isPressed = true;
 		this.doState();
+		event.stopPropagation();
 	}
 
 	/**
 	 * @method UIButton#_onPointerUp
 	 * @protected
 	 */
-	_onPointerUp() {
+	_onPointerUp(pointer, localX, localY, event) {
 		let isClicked = this._isPressed && this._isOver;
 		this._isPressed = false;
 		this.doState();
 		if (isClicked) {
+			event.stopPropagation();
 			if (UIManager.check(this.lockId)) {
 				this._onClick();
 			}
@@ -212,13 +213,13 @@ export default class UIButton extends UIComponentPrototype {
 	 * @protected
 	 * @inheritDoc
 	 */
-	destroy() {
+	destroy(fromScene) {
 		if (this._clip) {
 			let zone = this._clip.getChildClip(HIT_ZONE);
 			if (zone) {
 				this._removeInteractive(zone);
 			}
 		}
-		super.destroy();
+		super.destroy(fromScene);
 	}
 }
