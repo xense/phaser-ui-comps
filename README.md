@@ -53,7 +53,7 @@ Or you can download minified version from
 
 Or use [jsdelivr cdn](https://www.jsdelivr.com/) version
 ```html
-<script src="https://cdn.jsdelivr.net/npm/phaser-ui-comps@1.0.3/dist/phaser-ui-comps-with-underscore.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/phaser-ui-comps@1.0.5/dist/phaser-ui-comps-with-underscore.min.js"></script>
 ``` 
 
 *Note!*
