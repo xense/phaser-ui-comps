@@ -192,9 +192,9 @@ export default class ComponentClip extends Phaser.GameObjects.Container {
 	 * @param {Boolean} [fromScene=false]
 	 */
 	destroy(fromScene) {
-		_.each(this.childComponentClips, child => {
+		for (let child of this.childComponentClips) {
 			child.destroy(fromScene);
-		}, this);
+		}
 		super.destroy(fromScene)
 	}
 
@@ -208,16 +208,16 @@ export default class ComponentClip extends Phaser.GameObjects.Container {
 	 * @ignore
 	 */
 	_createImagesMap(textures) {
-		_.each(textures, (textureName) => {
+		for (let textureName of textures) {
 			const texture = this.scene.textures.get(textureName);
 			if (!texture) {
 				return;
 			}
 			const frames = texture.getFrameNames();
-			_.each(frames, (frameName) => {
+			for (let frameName of frames) {
 				this.imageFramesMap[frameName] = textureName;
-			}, this);
-		}, this);
+			}
+		}
 	}
 
 	/**
@@ -230,9 +230,9 @@ export default class ComponentClip extends Phaser.GameObjects.Container {
 	_parseConfig() {
 		//ComponentView._setupCommonParams(this, this._config);
 		if (this._config.hasOwnProperty("children")) {
-			_.each(this._config.children, (childConfig) => {
+			for (let childConfig of this._config.children) {
 				this._createChildFromConfig(childConfig);
-			}, this);
+			}
 		}
 	}
 
@@ -263,10 +263,10 @@ export default class ComponentClip extends Phaser.GameObjects.Container {
 			child = this._createPolygonFromConfig(config);
 			if (config.hasOwnProperty("masking")) {
 				let mask = child.createGeometryMask();
-				_.each(config.masking, (maskedChildId) => {
+				for (let maskedChildId of config.masking) {
 					let maskedChild = this._childrenById[maskedChildId];
 					maskedChild.setMask(mask);
-				}, this);
+				}
 				addAsChild = false;
 			}
 		}
@@ -599,15 +599,14 @@ class StateManager {
 	setupState() {
 		let idsToShow = this._currentState.componentIds;
 		let idsToHide = _.difference(this._dynamicChildrenIds, idsToShow);
-
-		_.each(idsToHide, (id) => {
+		let id;
+		for (id of idsToHide) {
 			this._components[id].visible = false;
-		}, this);
-
-		_.each(idsToShow, (id) => {
+		}
+		for (id of idsToShow) {
 			let component = this._components[id];
 			component.visible = true;
 			ComponentClip._setupCommonParams(component, this._currentState.config[id]);
-		}, this);
+		}
 	}
 }

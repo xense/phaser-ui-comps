@@ -1,6 +1,5 @@
 import UIComponentPrototype from "./UIComponentPrototype";
 import 'phaser';
-import _ from 'underscore';
 
 /**
  * @memberOf PhaserComps.UIComponents
@@ -99,9 +98,9 @@ export default class UIContainer extends UIComponentPrototype {
 	onClipAppend(clip) {
 		super.onClipAppend(clip);
 		if (clip) {
-			_.each(this._children, child => {
+			for (let child of this._children) {
 				this._addUIComponentToContainerClip(child);
-			}, this);
+			}
 		}
 	}
 
@@ -109,20 +108,20 @@ export default class UIContainer extends UIComponentPrototype {
 		super.onClipRemove(clip);
 		// hide and remove children from current container
 		if (clip) {
-			_.each(this._children, child => {
+			for (let child of this._children) {
 				this._removeUIComponentFromContainerClip(child);
-			}, this);
+			}
 		}
 	}
 
 	destroy() {
 		// remove and destroy children
-		_.each(this._children, child => {
+		for (let child of this._children) {
 			if (this._clip) { // TODO check if needed
 				this._removeUIComponentFromContainerClip(child);
 			}
 			child.destroy();
-		}, this);
+		}
 		this._children.length = 0;
 		super.destroy();
 	}

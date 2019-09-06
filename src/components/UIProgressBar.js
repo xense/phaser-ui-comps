@@ -131,9 +131,9 @@ export default class UIProgressBar extends UIComponentPrototype {
 	_makeSteps(clip) {
 		let stateIds = clip.getStateIds();
 		this._steps = [];
-		_.each(stateIds, (stateId) => {
+		for (let stateId of stateIds) {
 			if (!PROGRESS_STATE_REGEX.test(stateId)) {
-				return;
+				continue;
 			}
 
 			let stepConfig = {};
@@ -146,7 +146,7 @@ export default class UIProgressBar extends UIComponentPrototype {
 				stepConfig[childId] = UIProgressBar._makeFullConfig(stateConfig[childId]);
 			}
 			this._steps.push(stepObject);
-		}, this);
+		}
 		_.sortBy(this._steps, "stepValue");
 	}
 
