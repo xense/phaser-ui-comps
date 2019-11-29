@@ -31,7 +31,7 @@ export default class UIComponentPrototype extends Phaser.Events.EventEmitter {
 		/**
 		 * @type {String}
 		 */
-		this.lockId = null;
+		this._lockId = null;
 
 		/**
 		 *
@@ -88,6 +88,30 @@ export default class UIComponentPrototype extends Phaser.Events.EventEmitter {
 			this.onClipAppend(this._clip);
 		}
 		this._clipProcess();
+	}
+
+	/** @return {String} */
+	get lockId() {
+		return this._lockId;
+	}
+
+	/**
+	 * @return {Phaser.Geom.Rectangle}
+	 */
+	get lockClipBounds() { return null; } // override
+
+	/** @param {string} value */
+	set lockId(value) {
+		if (this._lockId === value) {
+			return;
+		}
+		if (this._lockId) {
+			PhaserComps.UIManager.unregister(this);
+		}
+		this._lockId = value;
+		if (this._lockId) {
+			PhaserComps.UIManager.register(this);
+		}
 	}
 
 	/**
@@ -186,6 +210,7 @@ export default class UIComponentPrototype extends Phaser.Events.EventEmitter {
 		if (this._clip) {
 			this._clip.destroy(fromScene);
 		}
+		super.destroy();
 	}
 
 	/**

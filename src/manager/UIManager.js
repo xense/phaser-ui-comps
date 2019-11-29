@@ -1,5 +1,6 @@
 let isLock = false;
 const enabledIds = [];
+const registeredComps = {};
 
 /**
  * @namespace PhaserComps.UIManager
@@ -41,6 +42,19 @@ export default class UIManager {
 		isLock = false;
 	}
 
+	/** @param {UIComponentPrototype} proto */
+	static register(proto) {
+		registeredComps[proto.lockId] = proto;
+	}
+
+	/** @param {UIComponentPrototype} proto */
+	static unregister(proto) {
+		if (registeredComps[proto.lockId]) {
+			registeredComps[proto.lockId] = null;
+			delete registeredComps[proto.lockId];
+		}
+	}
+
 	/**
 	 * @memberOf PhaserComps.UIManager
 	 * @description called from component to check, if it's allowed to emit UI event.
@@ -52,4 +66,22 @@ export default class UIManager {
 		}
 		return enabledIds.indexOf(id) !== -1;
 	}
+
+	/**
+	 * @param {string} id
+	 * @return {PhaserComps.UIComponents.UIComponentPrototype}
+	 */
+	static getById(id) {
+		return registeredComps[id];
+	}
+
+	/**
+	 * @param {string} id
+	 * @returns {Phaser.Geom.Rectangle}
+	 */
+	static getBoundsById(id) {
+		const proto = this.getById(id);
+		return proto ? proto.lockClipBounds : null;
+	}
+
 }

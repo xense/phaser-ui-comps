@@ -43,6 +43,11 @@ export default class UIButton extends UIComponentPrototype {
 		this._enable = true;
 		this._isPressed = false;
 		this._isOver = false;
+		/**
+		 * @type {Phaser.GameObjects.Zone}
+		 * @private
+		 */
+		this._hitZone = null;
 		if (labelText) {
 			this.label = labelText;
 		}
@@ -95,6 +100,7 @@ export default class UIButton extends UIComponentPrototype {
 		zone.on("pointerup", this._onPointerUp, this);
 		zone.on("pointerover", this._onPointerOver, this);
 		zone.on("pointerout", this._onPointerOut, this);
+		this._hitZone = zone;
 	}
 
 	/**
@@ -108,6 +114,11 @@ export default class UIButton extends UIComponentPrototype {
 		zone.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_UP, this._onPointerUp, this);
 		zone.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_OVER, this._onPointerOver, this);
 		zone.removeListener(Phaser.Input.Events.GAMEOBJECT_POINTER_OUT, this._onPointerOut, this);
+		this._hitZone = null;
+	}
+
+	get lockClipBounds() {
+		return this._hitZone ? this._hitZone.getBounds() : null;
 	}
 
 	/**
