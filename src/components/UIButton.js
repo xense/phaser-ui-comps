@@ -121,6 +121,10 @@ export default class UIButton extends UIComponentPrototype {
 		return this._hitZone ? this._hitZone.getBounds() : null;
 	}
 
+	get lockClip() {
+		return this._hitZone;
+	}
+
 	/**
 	 * @method PhaserComps.UIComponents.UIButton#_updateInteractive
 	 * @private

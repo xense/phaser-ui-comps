@@ -100,6 +100,9 @@ export default class UIComponentPrototype extends Phaser.Events.EventEmitter {
 	 */
 	get lockClipBounds() { return null; } // override
 
+	/** @return {Phaser.GameObjects.GameObject|*} */
+	get lockClip() { return null; } // override
+
 	/** @param {string} value */
 	set lockId(value) {
 		if (this._lockId === value) {

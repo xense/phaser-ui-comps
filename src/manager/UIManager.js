@@ -84,4 +84,13 @@ export default class UIManager {
 		return proto ? proto.lockClipBounds : null;
 	}
 
+	/**
+	 * @param {string} id
+	 * @returns {Phaser.GameObjects.GameObject|*}
+	 */
+	static getClipById(id) {
+		const proto = this.getById(id);
+		return proto ? proto.lockClip : null;
+	}
+
 }
