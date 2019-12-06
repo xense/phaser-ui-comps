@@ -1,6 +1,6 @@
 {
   "name": "phaser-ui-comps",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Phaser 3 UI Components Framework and JSFL builder for Adobe Animate",
   "main": "src/phasercomps.js",
   "scripts": {
@@ -43,7 +43,7 @@
     "webpack-dev-server": "^3.7.2"
   },
   "dependencies": {
-    "phaser": "^3.18.1",
+    "phaser": "^3.21.0",
     "underscore": "^1.9.1"
   },
   "deprecated": false
