@@ -1,5 +1,4 @@
 import UIComponentPrototype from "./UIComponentPrototype";
-import _ from "underscore";
 
 const PROGRESS_STATE_REGEX = /progress_(\d+)$/;
 
@@ -130,6 +129,10 @@ export default class UIProgressBar extends UIComponentPrototype {
 	 */
 	_makeSteps(clip) {
 		let stateIds = clip.getStateIds();
+		/**
+		 * @type {{stepValue: number, config: {}}[]}
+		 * @protected
+		 */
 		this._steps = [];
 		for (let stateId of stateIds) {
 			if (!PROGRESS_STATE_REGEX.test(stateId)) {
@@ -147,7 +150,7 @@ export default class UIProgressBar extends UIComponentPrototype {
 			}
 			this._steps.push(stepObject);
 		}
-		_.sortBy(this._steps, "stepValue");
+		this._steps.sort((a, b) => a.stepValue - b.stepValue);
 	}
 
 	/**

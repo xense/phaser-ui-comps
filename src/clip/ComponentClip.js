@@ -1,5 +1,4 @@
 import Phaser from "phaser";
-import _ from "underscore";
 
 const TYPE_IMAGE = "image";
 const TYPE_COMPONENT = "component";
@@ -507,14 +506,20 @@ class StateManager {
 		this._componentKeys = {};
 
 		this._residentComponentsByKey = {};
-		let idsArrays = [];
+		let idsArray = [];
 		for (let stateId in config.states) {
 			this.stateIds.push(stateId);
 			let state = new State(config.states[stateId]);
 			this._states[stateId] = state;
-			idsArrays.push(state.componentIds);
+			idsArray.push(...state.componentIds);
 		}
-		this._dynamicChildrenIds = _.uniq(_.flatten(idsArrays));
+		const uniq = []
+		for (let id of idsArray) {
+			if (!uniq.includes(id)) {
+				uniq.push(id);
+			}
+		}
+		this._dynamicChildrenIds = uniq;
 	}
 
 	/**
@@ -539,7 +544,8 @@ class StateManager {
 	 * @param {String} [childKey] child key from component config
 	 */
 	addComponent(component, childId, childKey) {
-		if (_.indexOf(this._dynamicChildrenIds, childId) === -1) {
+
+		if (!this._dynamicChildrenIds.includes(childId)) {
 			if (typeof childKey !== "undefined") {
 				this._residentComponentsByKey[childKey] = component;
 			}
@@ -598,15 +604,14 @@ class StateManager {
 	 */
 	setupState() {
 		let idsToShow = this._currentState.componentIds;
-		let idsToHide = _.difference(this._dynamicChildrenIds, idsToShow);
-		let id;
-		for (id of idsToHide) {
-			this._components[id].visible = false;
-		}
-		for (id of idsToShow) {
+		for (let id of this._dynamicChildrenIds) {
 			let component = this._components[id];
-			component.visible = true;
-			ComponentClip._setupCommonParams(component, this._currentState.config[id]);
+			if (idsToShow.includes(id)) {
+				component.visible = true;
+				ComponentClip._setupCommonParams(component, this._currentState.config[id]);
+			} else {
+				component.visible = false;
+			}
 		}
 	}
 }

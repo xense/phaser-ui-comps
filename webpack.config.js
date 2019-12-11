@@ -12,7 +12,8 @@ module.exports = {
 		path: path.resolve(__dirname, "dist"),
 		filename: "phaser-ui-comps.min.js",
 		libraryTarget: "umd",
-		library: "PhaserComps"
+		library: "PhaserComps",
+		sourceMapFilename: "phaser-ui-comps.min.js.map"
 	},
 
 	externals: {
@@ -23,14 +24,6 @@ module.exports = {
 			amd: "phaser",
 			// indicates global variable should be used
 			root: "Phaser"
-		},
-		underscore: {
-			umd: "underscore",
-			commonjs2: "underscore",
-			commonjs: "underscore",
-			amd: "underscore",
-			// indicates global variable should be used
-			root: "_"
 		}
 	},
 
@@ -45,5 +38,7 @@ module.exports = {
 				include: path.join(__dirname, 'src/')
 			},
 		],
-	}
+	},
+
+	devtool: "source-map"
 };

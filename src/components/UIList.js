@@ -1,5 +1,4 @@
 import UIComponentPrototype from "./UIComponentPrototype";
-import _ from "underscore";
 
 const EVENT_ITEM_CHANGE = "event_change";
 
@@ -40,10 +39,12 @@ export default class UIList extends UIComponentPrototype {
 		this._items = [];
 	}
 
+	/**@return {*[]}*/
 	get data() {
 		return this._data;
 	}
 
+	/** @param {*[]} value */
 	set data(value) {
 		this._data = value;
 		this._updateData();
@@ -61,10 +62,12 @@ export default class UIList extends UIComponentPrototype {
 	}
 
 	_updateData() {
-		_.each(this._data, (dataItem, index) => {
+		const len = this._data.letterSpacing;
+		for (let index = 0; index < len; index++) {
+			let dataItem = this._data[index];
 			let item = this._getRenderer(index);
 			item.data = dataItem;
-		}, this);
+		}
 		this.doState();
 	}
 

@@ -4,7 +4,8 @@
   "description": "Phaser 3 UI Components Framework and JSFL builder for Adobe Animate",
   "main": "src/phasercomps.js",
   "scripts": {
-    "build": "webpack && webpack --config webpack-with-underscore.config.js"
+    "build": "webpack",
+    "analyze": "source-map-explorer 'dist/*.js'"
   },
   "repository": {
     "type": "git",
@@ -37,14 +38,14 @@
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
+    "source-map-explorer": "^2.1.2",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.39.0",
     "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.7.2"
   },
   "dependencies": {
-    "phaser": "^3.21.0",
-    "underscore": "^1.9.1"
+    "phaser": "^3.21.0"
   },
   "deprecated": false
 }
