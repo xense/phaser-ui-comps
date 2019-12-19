@@ -24,7 +24,9 @@ export default class UIManager {
 	 * @param {boolean} [rewrite=true] rewrite current list if true, otherwise add to list
 	 */
 	static lock(id, rewrite = true) {
-		this.unlock();
+		if (rewrite) {
+			this.unlock();
+		}
 		if (typeof id === "string") {
 			enabledIds.push(id);
 		} else {
