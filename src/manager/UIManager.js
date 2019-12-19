@@ -20,10 +20,10 @@ export default class UIManager {
 	 * @memberOf PhaserComps.UIManager
 	 * @description Makes only components with provided ids list (or one id string) to emit UI events
 	 *
-	 * *Note, that method rewrites current enabled ids list every call.*
 	 * @param {String | Array<String>} id component's lock id, or Array of lock ids to be only enabled
+	 * @param {boolean} [rewrite=true] rewrite current list if true, otherwise add to list
 	 */
-	static lock(id) {
+	static lock(id, rewrite = true) {
 		this.unlock();
 		if (typeof id === "string") {
 			enabledIds.push(id);
