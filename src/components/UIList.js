@@ -62,7 +62,7 @@ export default class UIList extends UIComponentPrototype {
 	}
 
 	_updateData() {
-		const len = this._data.letterSpacing;
+		const len = this._data.length;
 		for (let index = 0; index < len; index++) {
 			let dataItem = this._data[index];
 			let item = this._getRenderer(index);
