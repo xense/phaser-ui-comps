@@ -1,5 +1,6 @@
 import UIComponentPrototype from "./UIComponentPrototype";
 import UIManager from "../manager/UIManager";
+import Phaser from "phaser";
 
 const HIT_ZONE = "HIT_ZONE";
 const LABEL = "label";

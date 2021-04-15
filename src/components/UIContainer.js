@@ -1,5 +1,4 @@
 import UIComponentPrototype from "./UIComponentPrototype";
-import 'phaser';
 
 /**
  * @memberOf PhaserComps.UIComponents

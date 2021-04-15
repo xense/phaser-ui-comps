@@ -1,6 +1,5 @@
 import UIButton from "./UIButton";
 import UIManager from "../manager/UIManager";
-
 const _EVENT_DRAG = "event_drag";
 
 /**

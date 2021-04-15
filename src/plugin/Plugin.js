@@ -1,4 +1,4 @@
-import "phaser";
+import Phaser from "phaser";
 import ComponentClip from "../clip/ComponentClip";
 
 /**

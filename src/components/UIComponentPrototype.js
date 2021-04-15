@@ -1,5 +1,5 @@
-import "phaser";
-import UIManager from "../manager/UIManager";
+import Phaser from "phaser";
+import PhaserComps from "../phasercomps";
 
 const _EVENT_STATE = "event_state";
 
@@ -25,6 +25,10 @@ export default class UIComponentPrototype extends Phaser.Events.EventEmitter {
 
 	static get EVENT_STATE() { return _EVENT_STATE; }
 
+	/**
+	 * @param {PhaserComps.UIComponents.UIComponentPrototype} parent
+	 * @param {String} key
+	 */
 	constructor(parent, key) {
 		super();
 

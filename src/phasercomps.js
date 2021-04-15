@@ -7,7 +7,7 @@ import UIComponents from "./components/UIComponents";
 import Plugin from "./plugin/Plugin";
 import UIManager from "./manager/UIManager";
 
-var PhaserComps = {
+const PhaserComps = {
 	ComponentClip: ComponentClip,
 	UIComponents: UIComponents,
 	Plugin: Plugin,
@@ -15,5 +15,3 @@ var PhaserComps = {
 };
 
 export default PhaserComps;
-
-global.PhaserComps = PhaserComps;

@@ -94,9 +94,9 @@ export default class UIList extends UIComponentPrototype {
 	 * @protected
 	 * @inheritDoc
 	 */
-	destroy() {
+	destroy(fromScene) {
 		this.clean();
-		super.destroy();
+		super.destroy(fromScene);
 	}
 
 	onItemChange(item) {
